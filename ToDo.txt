@@ -1,0 +1,6 @@
+ 1. Create a menu screen
+    - difficulty select
+    - ai select
+ 2. Code pawn promotion functionality for the ai
+ 3. alpha beta pruning
+ 

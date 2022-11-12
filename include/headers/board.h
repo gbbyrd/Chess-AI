@@ -12,7 +12,7 @@
 #define BISHOP_VALUE  84	// 2x
 #define QUEEN_VALUE  300	// 1x
 #define KING_VALUE 	 ((PAWN_VALUE * 8) + (ROOK_VALUE * 2) \
-						+ (KNIGHT_VALUE * 2) + (BISHOP_VALUE * 2) + QUEEN_VALUE + WIN_VALUE)
+	+ (KNIGHT_VALUE * 2) + (BISHOP_VALUE * 2) + QUEEN_VALUE + WIN_VALUE)
 
 /* use the first four bits to define the piece figure */
 
@@ -75,6 +75,11 @@ struct PieceInfoLog_s               /* keeps track of the piece info of the move
     PieceInfo_s piece2;
 };
 
+struct Move_s                       /* standard moves */
+{
+    int piece, to, from;
+};
+
 struct Special_Move_s               /* castleing, au passant */
 {
 
@@ -83,9 +88,11 @@ struct Special_Move_s               /* castleing, au passant */
     int piece2, from2, to2;
 };
 
-struct Move_s                       /* standard moves */
+struct Pawn_Prom_Move_s                  /* for AI pawn promotion */
 {
-    int piece, to, from;
+    int piece;
+    int from, to;
+    int initFigure, newFigure;
 };
 
 
@@ -101,7 +108,7 @@ struct MoveLog_s {                  /* this move log keeps track of the last mov
 
 enum class GameState_ec
 {
-    PLAY, EXIT
+    MENU, PLAY, EXIT
 };
 
 enum Spaces_e
@@ -123,7 +130,8 @@ struct MoveNode {
 
     // constructors
     MoveNode();
-    MoveNode(int n)                // where n is the number of next possible moves in response]
+    // where n is the number of next possible moves in response
+    MoveNode(int n)                
     {
         MoveNode possMove;
         nextMoves.push_back(possMove);
@@ -138,8 +146,10 @@ class Board_c
 
         enum Direction
         {
-            DirectionNorth = 0, DirectionSouth = 1, DirectionWest = 2, DirectionEast = 3,
-            DirectionNorthWest = 4, DirectionNorthEast = 5, DirectionSouthWest = 6, DirectionSouthEast = 7
+            DirectionNorth = 0, DirectionSouth = 1, 
+            DirectionWest = 2, DirectionEast = 3,
+            DirectionNorthWest = 4, DirectionNorthEast = 5, 
+            DirectionSouthWest = 6, DirectionSouthEast = 7
         };
 
         Board_c();
@@ -150,7 +160,8 @@ class Board_c
         void printBoard(std::vector<int> board);
         
 
-        /* These arrays are created to provide the functionality of the edges since the board array is only in 1 dimension */
+        /* These arrays are created to provide the functionality of the 
+        edges since the board array is only in 1 dimension */
         static const int directionOffSets[8];
         static const int knightDirectionOffsets[8];
         static const int knightMaxSpacesToEdge[8][4];
@@ -171,10 +182,14 @@ class Piece_c
         ~Piece_c();
 
         /* initialize structure for each piece */
-        PieceInfo_s w1; PieceInfo_s w2; PieceInfo_s w3; PieceInfo_s w4; PieceInfo_s w5; PieceInfo_s w6; PieceInfo_s w7; PieceInfo_s w8;
-        PieceInfo_s w9; PieceInfo_s w10; PieceInfo_s w11; PieceInfo_s w12; PieceInfo_s w13; PieceInfo_s w14; PieceInfo_s w15; PieceInfo_s w16;
-        PieceInfo_s b1; PieceInfo_s b2; PieceInfo_s b3; PieceInfo_s b4; PieceInfo_s b5; PieceInfo_s b6; PieceInfo_s b7; PieceInfo_s b8;
-        PieceInfo_s b9; PieceInfo_s b10; PieceInfo_s b11; PieceInfo_s b12; PieceInfo_s b13; PieceInfo_s b14; PieceInfo_s b15; PieceInfo_s b16;
+        PieceInfo_s w1; PieceInfo_s w2; PieceInfo_s w3; PieceInfo_s w4; 
+        PieceInfo_s w5; PieceInfo_s w6; PieceInfo_s w7; PieceInfo_s w8;
+        PieceInfo_s w9; PieceInfo_s w10; PieceInfo_s w11; PieceInfo_s w12; 
+        PieceInfo_s w13; PieceInfo_s w14; PieceInfo_s w15; PieceInfo_s w16;
+        PieceInfo_s b1; PieceInfo_s b2; PieceInfo_s b3; PieceInfo_s b4; 
+        PieceInfo_s b5; PieceInfo_s b6; PieceInfo_s b7; PieceInfo_s b8;
+        PieceInfo_s b9; PieceInfo_s b10; PieceInfo_s b11; PieceInfo_s b12; 
+        PieceInfo_s b13; PieceInfo_s b14; PieceInfo_s b15; PieceInfo_s b16;
         PieceInfo_s grabbedPiece; PieceInfo_s grabbedPieceLog;
 
         static std::vector<PieceInfo_s> pieceInfo;

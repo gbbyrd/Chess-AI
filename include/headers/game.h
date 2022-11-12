@@ -27,12 +27,17 @@ class Game_c: Board_c, Piece_c
         SDL_Surface* titleSurface; SDL_Texture* titleTexture;
         SDL_Surface* boardSurface; SDL_Texture* boardTexture;
         /* piece surfaces */
-        SDL_Surface* bPSurface; SDL_Surface* bRSurface; SDL_Surface* bNSurface; SDL_Surface* bBSurface; SDL_Surface* bQSurface; SDL_Surface* bKSurface;
-        SDL_Surface* wPSurface; SDL_Surface* wRSurface; SDL_Surface* wNSurface; SDL_Surface* wBSurface; SDL_Surface* wQSurface; SDL_Surface* wKSurface;
+        SDL_Surface* bPSurface; SDL_Surface* bRSurface; SDL_Surface* bNSurface; 
+        SDL_Surface* bBSurface; SDL_Surface* bQSurface; SDL_Surface* bKSurface;
+        SDL_Surface* wPSurface; SDL_Surface* wRSurface; SDL_Surface* wNSurface; 
+        SDL_Surface* wBSurface; SDL_Surface* wQSurface; SDL_Surface* wKSurface;
         /* piece textures */
-        SDL_Texture* wPTex; SDL_Texture* wRTex; SDL_Texture* wNTex; SDL_Texture* wBTex; SDL_Texture* wQTex; SDL_Texture* wKTex;
-        SDL_Texture* bPTex; SDL_Texture* bRTex; SDL_Texture* bNTex; SDL_Texture* bBTex; SDL_Texture* bQTex; SDL_Texture* bKTex;
-        /* surface and texture for the possible move square that highlights possible moves when you grab a piece */
+        SDL_Texture* wPTex; SDL_Texture* wRTex; SDL_Texture* wNTex; 
+        SDL_Texture* wBTex; SDL_Texture* wQTex; SDL_Texture* wKTex;
+        SDL_Texture* bPTex; SDL_Texture* bRTex; SDL_Texture* bNTex; 
+        SDL_Texture* bBTex; SDL_Texture* bQTex; SDL_Texture* bKTex;
+        /* surface and texture for the possible move square that 
+        highlights possible moves when you grab a piece */
         SDL_Surface* whiteSquareSurface; SDL_Texture* whiteSquareTex;
 
         /* RECTANGLE ORIGIN LOCATION VARIABLES */
@@ -61,14 +66,22 @@ class Game_c: Board_c, Piece_c
         SDL_Rect dstWhiteSquare;
 
         /* RECTANGLES FOR EACH SPACE ON THE BOARD */
-        SDL_Rect A8Rect; SDL_Rect B8Rect; SDL_Rect C8Rect; SDL_Rect D8Rect; SDL_Rect E8Rect; SDL_Rect F8Rect; SDL_Rect G8Rect; SDL_Rect H8Rect;
-        SDL_Rect A7Rect; SDL_Rect B7Rect; SDL_Rect C7Rect; SDL_Rect D7Rect; SDL_Rect E7Rect; SDL_Rect F7Rect; SDL_Rect G7Rect; SDL_Rect H7Rect;
-        SDL_Rect A6Rect; SDL_Rect B6Rect; SDL_Rect C6Rect; SDL_Rect D6Rect; SDL_Rect E6Rect; SDL_Rect F6Rect; SDL_Rect G6Rect; SDL_Rect H6Rect;
-        SDL_Rect A5Rect; SDL_Rect B5Rect; SDL_Rect C5Rect; SDL_Rect D5Rect; SDL_Rect E5Rect; SDL_Rect F5Rect; SDL_Rect G5Rect; SDL_Rect H5Rect;
-        SDL_Rect A4Rect; SDL_Rect B4Rect; SDL_Rect C4Rect; SDL_Rect D4Rect; SDL_Rect E4Rect; SDL_Rect F4Rect; SDL_Rect G4Rect; SDL_Rect H4Rect;
-        SDL_Rect A3Rect; SDL_Rect B3Rect; SDL_Rect C3Rect; SDL_Rect D3Rect; SDL_Rect E3Rect; SDL_Rect F3Rect; SDL_Rect G3Rect; SDL_Rect H3Rect;
-        SDL_Rect A2Rect; SDL_Rect B2Rect; SDL_Rect C2Rect; SDL_Rect D2Rect; SDL_Rect E2Rect; SDL_Rect F2Rect; SDL_Rect G2Rect; SDL_Rect H2Rect;
-        SDL_Rect A1Rect; SDL_Rect B1Rect; SDL_Rect C1Rect; SDL_Rect D1Rect; SDL_Rect E1Rect; SDL_Rect F1Rect; SDL_Rect G1Rect; SDL_Rect H1Rect;
+        SDL_Rect A8Rect; SDL_Rect B8Rect; SDL_Rect C8Rect; SDL_Rect D8Rect; 
+        SDL_Rect E8Rect; SDL_Rect F8Rect; SDL_Rect G8Rect; SDL_Rect H8Rect;
+        SDL_Rect A7Rect; SDL_Rect B7Rect; SDL_Rect C7Rect; SDL_Rect D7Rect; 
+        SDL_Rect E7Rect; SDL_Rect F7Rect; SDL_Rect G7Rect; SDL_Rect H7Rect;
+        SDL_Rect A6Rect; SDL_Rect B6Rect; SDL_Rect C6Rect; SDL_Rect D6Rect; 
+        SDL_Rect E6Rect; SDL_Rect F6Rect; SDL_Rect G6Rect; SDL_Rect H6Rect;
+        SDL_Rect A5Rect; SDL_Rect B5Rect; SDL_Rect C5Rect; SDL_Rect D5Rect; 
+        SDL_Rect E5Rect; SDL_Rect F5Rect; SDL_Rect G5Rect; SDL_Rect H5Rect;
+        SDL_Rect A4Rect; SDL_Rect B4Rect; SDL_Rect C4Rect; SDL_Rect D4Rect; 
+        SDL_Rect E4Rect; SDL_Rect F4Rect; SDL_Rect G4Rect; SDL_Rect H4Rect;
+        SDL_Rect A3Rect; SDL_Rect B3Rect; SDL_Rect C3Rect; SDL_Rect D3Rect; 
+        SDL_Rect E3Rect; SDL_Rect F3Rect; SDL_Rect G3Rect; SDL_Rect H3Rect;
+        SDL_Rect A2Rect; SDL_Rect B2Rect; SDL_Rect C2Rect; SDL_Rect D2Rect; 
+        SDL_Rect E2Rect; SDL_Rect F2Rect; SDL_Rect G2Rect; SDL_Rect H2Rect;
+        SDL_Rect A1Rect; SDL_Rect B1Rect; SDL_Rect C1Rect; SDL_Rect D1Rect; 
+        SDL_Rect E1Rect; SDL_Rect F1Rect; SDL_Rect G1Rect; SDL_Rect H1Rect;
         /* vector containing all of the board rectangles */
         std::vector<SDL_Rect*> boardSpaceRects;
 
@@ -89,18 +102,23 @@ class Game_c: Board_c, Piece_c
         int currentDepth;
         Move_s aiBestMove;
         Special_Move_s aiBestSpecialMove;
+        Pawn_Prom_Move_s aiBestPawnPromMove;
         int minimax(int depth, int maximizingPlayer);
         int getBoardEvaluation();
         void clearAiBestMove();
         void clearAiBestSpecialMove();
+        void clearAiBestPawnPromMove();
 
         /* METHODS AND VARIABLES FOR GETTING THE POSSIBLE MOVES */ 
         std::vector<std::list<Move_s>> possibleMoves;
         std::vector<std::list<Special_Move_s>> possibleSpecialMoves;
+        std::vector<std::list<Pawn_Prom_Move_s>> possiblePawnPromMoves;
         void initializePossibleMoves(int setDepth);
         void initializePossibleSpecialMoves(int setDepth);
+        void initializePossiblePawnPromMoves(int setDepth);
         void clearPossibleMoves();
         void clearPossibleSpecialMoves();
+        void clearPossiblePawnPromMoves();
         void getPossibleMoves(int pieceIdentifier);
         /* get all possible moves for various pieces */
         void getPawnMoves(int piece, int from);
@@ -111,10 +129,14 @@ class Game_c: Board_c, Piece_c
         Move_s createMove(int piece, int to, int from);
         Special_Move_s createSpecialMove(int piece1, int piece2, int from1, 
                                          int from2, int to1, int to2);
+        Pawn_Prom_Move_s createPawnPromMove(int piece1, int from, int to, int newFigure);
         void addMoveIfValid(Move_s move);
         void addSpecialMoveIfValid(Special_Move_s specialMove);
+        void addPawnPromMoveIfValid(Pawn_Prom_Move_s pawnPromMove);
+        void createAndAddPawnPromMove(int piece, int from, int to);
         void makeMove(Move_s move);
         void makeSpecialMove(Special_Move_s specialMove);
+        void makePawnPromMove(Pawn_Prom_Move_s pawnPromMove);
         void reverseMove();
         void clearPieceInfoLog(int depth);
         bool isInCheck(int friendlyColor);
