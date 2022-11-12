@@ -2,7 +2,7 @@
 #include <chrono>
 #include <thread>
 
-#include <headers\game.h>
+#include "../include/headers/game.h"
 
 using namespace std::chrono; using namespace std::this_thread;
 

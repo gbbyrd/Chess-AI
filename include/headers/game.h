@@ -1,12 +1,12 @@
 #pragma once
 
-#include <sdl2/SDL.h>
-#include <sdl2/SDL_image.h>
+#include "../sdl2/SDL.h"
+#include "../sdl2/SDL_image.h"
 #include <iostream>
 #include <vector>
 #include <stack>
 
-#include <board.h>
+#include "board.h"
 
 class Game_c: Board_c, Piece_c
 {
