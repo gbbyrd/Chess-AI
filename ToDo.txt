@@ -1,6 +1,7 @@
  1. Create a menu screen
     - difficulty select
-    - ai select
- 2. Code pawn promotion functionality for the ai
+    - add quit screen
+    - ensure that toggling AI has no bugs
+    - remove the undo button
  3. alpha beta pruning
  

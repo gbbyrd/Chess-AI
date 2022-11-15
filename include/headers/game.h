@@ -85,6 +85,33 @@ class Game_c: Board_c, Piece_c
         /* vector containing all of the board rectangles */
         std::vector<SDL_Rect*> boardSpaceRects;
 
+        /* BUTTON HIGHLIGHT */
+        SDL_Surface* buttonHighlightSurface; SDL_Texture* buttonHighlightTex;
+        SDL_Rect srcButtonHighlightRect;
+        
+        /* ARTIFICIAL INTELLIGENCE SELECTION */
+        SDL_Surface* aiSelectorSurface; SDL_Texture* aiSelectorTex;
+        int aiSelectorOriginX, aiSelectorOriginY;
+        int aiSelectorHeight, aiSelectorWidth;
+        SDL_Rect srcAiSelectorRect; SDL_Rect dstAiSelectorRect;
+        SDL_Surface* blackButtonSurface; SDL_Texture* blackButtonTex;
+        int blackButtonOriginX, blackButtonOriginY;
+        int blackButtonHeight, blackButtonWidth;
+        SDL_Rect srcBlackButtonRect; SDL_Rect dstBlackButtonRect;
+        SDL_Rect dstBlackButtonHighlightRect;
+        SDL_Surface* whiteButtonSurface; SDL_Texture* whiteButtonTex;
+        int whiteButtonOriginX, whiteButtonOriginY;
+        int whiteButtonHeight, whiteButtonWidth;
+        SDL_Rect srcWhiteButtonRect; SDL_Rect dstWhiteButtonRect;
+        SDL_Rect dstWhiteButtonHighlightRect;
+
+        /* EXIT BUTTON */
+        SDL_Surface* exitButtonSurface; SDL_Texture* exitButtonTex;
+        int exitButtonOriginX, exitButtonOriginY;
+        int exitButtonHeight, exitButtonWidth;
+        SDL_Rect srcExitButtonRect; SDL_Rect dstExitButtonRect;
+        SDL_Rect dstExitButtonHighlightRect;
+
         /* GAME WINDOW RENDERING */
         void initializeGameDisplay(const char* title, int displayLocX, int displayLocY, 
             int width, int height, Uint32 flags);
@@ -97,6 +124,8 @@ class Game_c: Board_c, Piece_c
         /* detemines which piece will be an artificial intelligence */
         int aiPlayer;
         bool isBothPlayerAI;
+        bool isWhiteAi;
+        bool isBlackAi;
         /* this controls the difficulty of the ai */
         int setDepth; 
         int currentDepth;

@@ -103,12 +103,61 @@ Game_c::Game_c(){
         }
     }
 
+    /* BUTTON HIGHLIGHT */
+    buttonHighlightSurface = IMG_Load("res/ButtonHighlight.png");
+    srcButtonHighlightRect = {0, 0, 670, 419};
+
+    /* ARTIFICIAL INTELLIGENCE SELECTION */
+    /* ai selector banner */
+    aiSelectorSurface = IMG_Load("res/ai_selector.png");
+    aiSelectorOriginX = boardTextureRectOriginx + 1040 + 150;
+    aiSelectorOriginY = boardTextureRectOriginy + 406 + 10;
+    aiSelectorHeight = 128; aiSelectorWidth = 520;
+    srcAiSelectorRect = {0, 0, aiSelectorWidth, aiSelectorHeight};
+    dstAiSelectorRect = {aiSelectorOriginX,  
+        aiSelectorOriginY, aiSelectorWidth, aiSelectorHeight};
+    /* "black" button */
+    blackButtonSurface = IMG_Load("res/Black.png");
+    blackButtonOriginX = aiSelectorOriginX + 27;
+    blackButtonOriginY = aiSelectorOriginY + aiSelectorHeight + 10; 
+    blackButtonHeight = 89; blackButtonWidth = 215;
+    srcBlackButtonRect = {0, 0, blackButtonWidth, blackButtonWidth};
+    dstBlackButtonRect = {blackButtonOriginX, blackButtonOriginY,
+        blackButtonWidth, blackButtonHeight};
+    /* "black" button highlight rect */
+    dstBlackButtonHighlightRect = {blackButtonOriginX - 5, 
+        blackButtonOriginY - 5, blackButtonWidth + 10, blackButtonHeight + 10};
+    /* "white" button */
+    whiteButtonSurface = IMG_Load("res/White.png");
+    whiteButtonOriginX = blackButtonOriginX + blackButtonWidth + 35;
+    whiteButtonOriginY = blackButtonOriginY;
+    whiteButtonHeight = blackButtonHeight; whiteButtonWidth = blackButtonWidth;
+    srcWhiteButtonRect = {0, 0, whiteButtonWidth, whiteButtonHeight};
+    dstWhiteButtonRect = {whiteButtonOriginX, whiteButtonOriginY,
+        whiteButtonWidth, whiteButtonHeight};
+    /* "white" button highlight rect */
+    dstWhiteButtonHighlightRect = {whiteButtonOriginX - 5, 
+        whiteButtonOriginY - 5, whiteButtonWidth + 10, whiteButtonHeight + 10};
+
+    /* EXIT BUTTON */
+    exitButtonSurface = IMG_Load("res/Exit.png");
+    exitButtonOriginX = boardTextureRectOriginx + 1040 + 620;
+    exitButtonOriginY = boardTextureRectOriginy + titleHeight + 100;
+    exitButtonHeight = 87; exitButtonWidth = 185;
+    srcExitButtonRect = {0, 0, exitButtonWidth, exitButtonHeight};
+    dstExitButtonRect = {exitButtonOriginX, exitButtonOriginY, exitButtonWidth,
+        exitButtonHeight};
+    dstExitButtonHighlightRect = {exitButtonOriginX - 5, exitButtonOriginY - 5,
+        exitButtonWidth + 10, exitButtonHeight + 10};
+    
     /* ARTIFICIAL INTELLIGENCE */
     maximizingPlayer = WHITE; 
     minimizingPlayer = BLACK;
     /* detemines which piece will be an artificial intelligence */
-    aiPlayer = BLACK; 
+    aiPlayer = 1; 
     isBothPlayerAI = false;
+    isWhiteAi = false;
+    isBlackAi = false;
     /* change "setDepth" to change the amount of moves ahead the AI looks
      * this effectively changes the difficulty of the AI
      */
@@ -294,6 +343,22 @@ void Game_c::initializeGameDisplay(const char* title, int displayLocX, int displ
     whiteSquareTex = SDL_CreateTextureFromSurface(renderer, whiteSquareSurface); 
     SDL_FreeSurface(whiteSquareSurface);
 
+    /* BUTTON HIGHLIGHT */
+    buttonHighlightTex = SDL_CreateTextureFromSurface(renderer, buttonHighlightSurface);
+    SDL_FreeSurface(buttonHighlightSurface);
+
+    /* AI SELECTOR */
+    aiSelectorTex = SDL_CreateTextureFromSurface(renderer, aiSelectorSurface);
+    SDL_FreeSurface(aiSelectorSurface);
+    blackButtonTex = SDL_CreateTextureFromSurface(renderer, blackButtonSurface);
+    SDL_FreeSurface(blackButtonSurface);
+    whiteButtonTex = SDL_CreateTextureFromSurface(renderer, whiteButtonSurface);
+    SDL_FreeSurface(whiteButtonSurface);
+
+    /* EXIT BUTTON */
+    exitButtonTex = SDL_CreateTextureFromSurface(renderer, exitButtonSurface);
+    SDL_FreeSurface(exitButtonSurface);
+
     /* CHECKMATE */
     checkmateTex = SDL_CreateTextureFromSurface(renderer, checkmateSurface); 
     SDL_FreeSurface(checkmateSurface);
@@ -367,6 +432,34 @@ void Game_c::handleEvents(){
                 }
                 isClicked = true;
                 grabPiece();
+
+                if (SDL_PointInRect(&mousePosition, &dstWhiteButtonRect))
+                {
+                    isWhiteAi = isWhiteAi ? false : true;
+                    isBothPlayerAI = isWhiteAi && isBlackAi ? true : false;
+                    if (isBlackAi && !isWhiteAi)
+                        aiPlayer = BLACK;
+                    else if (!isBlackAi && isWhiteAi)
+                        aiPlayer = WHITE;
+                    else
+                        aiPlayer = 1;
+                }
+                if (SDL_PointInRect(&mousePosition, &dstBlackButtonRect))
+                {
+                    isBlackAi = isBlackAi ? false : true;
+                    isBothPlayerAI = isWhiteAi && isBlackAi ? true : false;
+                    if (isBlackAi && !isWhiteAi)
+                        aiPlayer = BLACK;
+                    else if (!isBlackAi && isWhiteAi)
+                        aiPlayer = WHITE;
+                    else
+                        aiPlayer = 1;
+                }
+                if (SDL_PointInRect(&mousePosition, &dstExitButtonRect))
+                {
+                    gameState_ec = GameState_ec::EXIT;
+                    break;
+                }
 
                 /* DEBUGGING */
                 /* this is used as a breakpoint so you can start 
@@ -468,12 +561,39 @@ void Game_c::gameLoop(){
         SDL_RenderClear(renderer);
         SDL_RenderCopy(renderer, titleTexture, &srcTitleRect, &dstTitleRect);
         SDL_RenderCopy(renderer, boardTexture, &srcBoardRect, &dstBoardRect);
-        SDL_RenderCopy(renderer, undoRectTex, &srcUndoRect, &dstUndoRect);
+        // SDL_RenderCopy(renderer, undoRectTex, &srcUndoRect, &dstUndoRect);
+
+        /* BUTTON HIGHLIGHTS */
+        /* "black" button */
+        if (SDL_PointInRect(&mousePosition, &dstBlackButtonRect) || isBlackAi)
+        {
+            SDL_RenderCopy(renderer, buttonHighlightTex, &srcButtonHighlightRect,
+                &dstBlackButtonHighlightRect);
+        }
+        /* "white" button */
+        if (SDL_PointInRect(&mousePosition, &dstWhiteButtonRect) || isWhiteAi)
+        {
+            SDL_RenderCopy(renderer, buttonHighlightTex, &srcButtonHighlightRect,
+                &dstWhiteButtonHighlightRect);
+        }
+        /* "exit" button */
+        if (SDL_PointInRect(&mousePosition, &dstExitButtonRect))
+        {
+            SDL_RenderCopy(renderer, buttonHighlightTex, &srcButtonHighlightRect,
+                &dstExitButtonHighlightRect);
+        }
+
+        /* AI SELECTOR */
+        SDL_RenderCopy(renderer, aiSelectorTex, &srcAiSelectorRect, &dstAiSelectorRect);
+        SDL_RenderCopy(renderer, blackButtonTex, &srcBlackButtonRect, &dstBlackButtonRect);
+        SDL_RenderCopy(renderer, whiteButtonTex, &srcWhiteButtonRect, &dstWhiteButtonRect);
+        /* EXIT BUTTON */
+        SDL_RenderCopy(renderer, exitButtonTex, &srcExitButtonRect, &dstExitButtonRect);
         /* DEBUGGING */
-        SDL_RenderCopy(renderer, debugRectTex, &srcDebugRect, &dstDebugRect);
-        SDL_RenderCopy(renderer, printBoardRectTex, &srcPrintBoardRect, &dstPrintBoardRect);
-        SDL_RenderCopy(renderer, printPieceInfoRectTex, &srcPrintPieceInfoRect, &dstPrintPieceInfoRect);
-        SDL_RenderCopy(renderer, toggleAIRectTex, &srcToggleAIRect, &dstToggleAIRect);
+        // SDL_RenderCopy(renderer, debugRectTex, &srcDebugRect, &dstDebugRect);
+        // SDL_RenderCopy(renderer, printBoardRectTex, &srcPrintBoardRect, &dstPrintBoardRect);
+        // SDL_RenderCopy(renderer, printPieceInfoRectTex, &srcPrintPieceInfoRect, &dstPrintPieceInfoRect);
+        // SDL_RenderCopy(renderer, toggleAIRectTex, &srcToggleAIRect, &dstToggleAIRect);
         /* DIFFICULTY SELECT */
         // SDL_RenderCopy(renderer, difficultyTex, &srcDifficulty, &dstDifficulty);
         // SDL_RenderCopy(renderer, veryEasyTex, &srcVeryEasy, &dstVeryEasy);
