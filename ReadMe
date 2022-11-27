@@ -1,1 +1,17 @@
 This is a custom chess engine and artificial intelligence created by Grayson Byrd using the SDL2 2D graphics library.
+
+The artificial intelligence is based off of a recursive minimax function. This function allows the AI controlled player to analyze 
+the board and compute the game state. A "depth" value can be modified to set how many moves ahead the AI will look. For example,
+if the depth was set to 4 the AI player would start by calculating all possible moves based on the current locations of the pieces 
+on the board. The AI player would then predict the best possible move it's opponent could make by calling the minimax function recursively
+for the opposing player. After this process repeats for 4 moves, the AI player would analyze the gamestates at the end of the four move
+sequence and choose the immediate move that has the potential to generate the most favorable gamestate after 4 moves assuming the opponent is
+making optimal moves.
+
+The link below is a video that gives a good explanation of the overall concepts behind the algorithm driving the AI in this project. It also
+provides a pseudo-code representation of the algorithm.
+
+https://www.youtube.com/watch?v=l-hh51ncgDI
+
+In the future, alpha-beta pruning will be added to decrease the computation time required to allow for an increase in the depth setting without
+increasing the computation time for the AI to predict the best move.
