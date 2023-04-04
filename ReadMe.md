@@ -1,5 +1,6 @@
-This is a custom chess engine and artificial intelligence created by Grayson Byrd using the SDL2 2D graphics library.
+# This is a custom chess engine and artificial intelligence created by Grayson Byrd using the SDL2 2D graphics library.
 
+## Description
 The artificial intelligence is based off of a recursive minimax function. This function allows the AI controlled player to analyze 
 the board and compute the game state. A "depth" value can be modified to set how many moves ahead the AI will look. For example,
 if the depth was set to 4 the AI player would start by calculating all possible moves based on the current locations of the pieces 
@@ -13,5 +14,6 @@ provides a pseudo-code representation of the algorithm.
 
 https://www.youtube.com/watch?v=l-hh51ncgDI
 
+## Future work
 In the future, alpha-beta pruning will be added to decrease the computation time required to allow for an increase in the depth setting without
 increasing the computation time for the AI to predict the best move.
